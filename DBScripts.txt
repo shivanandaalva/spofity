@@ -1,0 +1,39 @@
+Table:song
+
+CREATE TABLE "song" (
+	"songid"	INTEGER NOT NULL,
+	"songname"	TEXT NOT NULL,
+	"dor"	TEXT,
+	"cover"	BLOB,
+	"ratings"	INTEGER,
+	PRIMARY KEY("songid" AUTOINCREMENT)
+);
+
+Table:artist
+
+CREATE TABLE "artist" (
+	"artistid"	INTEGER NOT NULL,
+	"name"	TEXT NOT NULL,
+	"dob"	TEXT,
+	"bio"	TEXT,
+	PRIMARY KEY("artistid" AUTOINCREMENT)
+);
+
+Table:songartists
+
+CREATE TABLE "songartists" (
+	"id"	INTEGER NOT NULL,
+	"song_id"	INTEGER NOT NULL,
+	"artist_id"	INTEGER NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("song_id") REFERENCES "song"("songid"),
+	FOREIGN KEY("artist_id") REFERENCES "artist"("artistid")
+);
+
+
+View:songartistview
+
+create VIEW songartistview as
+SELECT s.songid, s.name, s.dor, s.cover, s.ratings, a.artistid, a.name a.dob, a.bio from song s 
+inner join songartists m on s.songid=m.song_id 
+inner join artist a on m.artist_id = a.artistid 
